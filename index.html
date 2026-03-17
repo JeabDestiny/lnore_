@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>อย่ากดนะ 😏</title>
+
+<style>
+body {
+    background: black;
+    color: white;
+    text-align: center;
+    font-family: sans-serif;
+    padding-top: 50px;
+}
+
+img {
+    width: 300px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ห้ามกดนะ!! 😡</h1>
+
+<img id="pic" src="Inore_.jpg">
+
+<br><br>
+
+<button onclick="troll()">กดสิ 😈</button>
+
+<p id="text"></p>
+
+<audio id="sound" src="https://www.myinstants.com/media/sounds/vine-boom.mp3"></audio>
+
+<script>
+function troll() {
+    document.getElementById("text").innerHTML = "555555 โดนแล้ววว 🤣";
+    document.getElementById("sound").play();
+
+    let img = document.getElementById("pic");
+    img.style.transform = "scale(1.5)";
+}
+</script>
+
+</body>
+</html>

@@ -2,54 +2,77 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>อย่ากดนะ 😏</title>
+<title>มีของขวัญให้ 💖</title>
 
 <style>
 body {
-    background: black;
-    color: white;
-    text-align: center;
-    font-family: sans-serif;
-    padding-top: 50px;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    /* พื้นหลังชมพู */
+    background: linear-gradient(135deg, #ffc0cb, #ff9aa2);
+    font-family: "Kanit", sans-serif;
 }
 
-img {
-    width: 300px;
-    border-radius: 20px;
-    transition: 0.3s;
+/* กล่องของขวัญ */
+.gift-box {
+    font-size: 100px;
+    animation: float 2s infinite;
 }
 
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* ปุ่ม */
 button {
+    margin-top: 20px;
     padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 20px;
+    font-size: 20px;
     border: none;
+    border-radius: 20px;
+    background: white;
+    color: #ff6b81;
     cursor: pointer;
 }
+
+/* รูป */
+#scare {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 300px;
+    border-radius: 20px;
+    transition: 0.4s;
+    z-index: 999;
+}
 </style>
+
 </head>
 
 <body>
 
-<h1>ห้ามกดนะ!! 😡</h1>
+<div class="gift-box">🎁</div>
 
-<img id="pic" src="Inore_.jpg">
+<button onclick="openGift()">เปิดกล่องของขวัญ 💝</button>
 
-<br><br>
+<img id="scare" src="Lnore_.jpg">
 
-<button onclick="troll()">กดสิ 😈</button>
-
-<p id="text"></p>
-
-<audio id="sound" src="https://www.myinstants.com/media/sounds/vine-boom.mp3"></audio>
+<audio id="boom" src="https://www.myinstants.com/media/sounds/vine-boom.mp3"></audio>
 
 <script>
-function troll() {
-    document.getElementById("text").innerHTML = "555555 โดนแล้ววว 🤣";
-    document.getElementById("sound").play();
+function openGift() {
+    let img = document.getElementById("scare");
+    img.style.transform = "translate(-50%, -50%) scale(1.5)";
 
-    let img = document.getElementById("pic");
-    img.style.transform = "scale(1.5)";
+    document.getElementById("boom").play();
 }
 </script>
 

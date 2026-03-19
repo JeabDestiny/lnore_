@@ -9,25 +9,29 @@ body {
     margin: 0;
     font-family: "Kanit", sans-serif;
     text-align: center;
-
     min-height: 100vh;
     overflow-x: hidden;
-
-    background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
 }
 
-/* ลายพื้นหลัง */
-body::before {
-    content: "";
+/* 🌸 พื้นหลังจริง */
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
+    z-index: -2;
+}
+
+/* ✨ ลายจุดขยับ */
+.bg-pattern {
     position: fixed;
     width: 200%;
     height: 200%;
     background: radial-gradient(circle, #ffffff33 10%, transparent 10%);
     background-size: 50px 50px;
     animation: moveBg 10s linear infinite;
-
-    pointer-events: none;
     z-index: -1;
+    pointer-events: none;
 }
 
 @keyframes moveBg {
@@ -39,8 +43,7 @@ body::before {
 .card {
     position: relative;
     z-index: 10;
-
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     padding: 30px;
     border-radius: 25px;
     display: inline-block;
@@ -124,6 +127,10 @@ button:hover {
 
 <body>
 
+<!-- 🌸 พื้นหลัง -->
+<div class="bg"></div>
+<div class="bg-pattern"></div>
+
 <div id="overlay"></div>
 
 <!-- หน้าแรก -->
@@ -134,7 +141,7 @@ button:hover {
 
 <!-- ด่าน 1 -->
 <div id="stage1" class="hidden">
-    <h2 id="msg1">เลือกดี ๆ นะ 😈</h2>
+    <h2 id="msg1">คิดว่าถูกหรอ 😏</h2>
     <div id="boxes1" class="grid25"></div>
 </div>
 
@@ -153,7 +160,7 @@ button:hover {
 
 <img id="img" src="Lnore_.jpg">
 
-<!-- 🔊 ใช้ไฟล์เสียงของน้อง -->
+<!-- 🔊 เสียง -->
 <audio id="sound" src="Lnore_.mp3"></audio>
 
 <script>
@@ -234,14 +241,13 @@ function stage2Click() {
     }
 }
 
-/* ตอนจบ + เสียง */
+/* ตอนจบ */
 function showImage() {
     document.getElementById("overlay").style.display = "block";
 
     let img = document.getElementById("img");
     img.style.transform = "translate(-50%, -50%) scale(1.5)";
 
-    // 🔊 เล่นเสียง (หน่วงนิดให้สะดุ้ง)
     setTimeout(() => {
         document.getElementById("sound").play();
     }, 200);

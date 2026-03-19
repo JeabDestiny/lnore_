@@ -10,35 +10,57 @@ body {
     font-family: "Kanit", sans-serif;
     text-align: center;
     height: 100vh;
+    overflow: hidden;
 
-    /* พื้นหลังน่ารัก */
-    background: radial-gradient(circle, #ffd6e0 20%, transparent 20%),
-                radial-gradient(circle, #ffd6e0 20%, transparent 20%);
-    background-position: 0 0, 25px 25px;
-    background-size: 50px 50px;
-    background-color: #ff9aa2;
+    background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
 }
 
-/* กล่องกลาง */
+/* เอฟเฟกต์พื้นหลัง */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, #ffffff33 10%, transparent 10%);
+    background-size: 50px 50px;
+    animation: moveBg 10s linear infinite;
+}
+
+@keyframes moveBg {
+    from { transform: translate(0,0); }
+    to { transform: translate(-50px,-50px); }
+}
+
+/* กล่อง UI */
 .card {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.85);
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 25px;
     display: inline-block;
     margin-top: 120px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* ปุ่ม */
 button {
-    padding: 15px 25px;
+    padding: 15px 30px;
     font-size: 18px;
     border-radius: 20px;
     border: none;
     cursor: pointer;
     background: #ff6b81;
     color: white;
-    margin-top: 15px;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.1);
 }
 
 /* grid */
@@ -62,10 +84,32 @@ button {
 .box {
     font-size: 40px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.box:hover {
+    transform: scale(1.3) rotate(5deg);
 }
 
 /* ซ่อน */
 .hidden {
+    display: none;
+}
+
+/* ข้อความ */
+.msg {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+/* overlay ตอนจบ */
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    left: 0;
     display: none;
 }
 
@@ -75,14 +119,17 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 300px;
+    width: 320px;
     border-radius: 20px;
-    transition: 0.3s;
+    transition: 0.4s;
+    z-index: 999;
 }
 </style>
 </head>
 
 <body>
+
+<div id="overlay"></div>
 
 <!-- หน้าแรก -->
 <div id="start" class="card">
@@ -92,7 +139,7 @@ button {
 
 <!-- ด่าน 1 -->
 <div id="stage1" class="hidden">
-    <h2 id="msg1">เลือกดี ๆ นะ 😈</h2>
+    <h2 id="msg1" class="msg">เลือกดี ๆ นะ 😈</h2>
     <div id="boxes1" class="grid25"></div>
 </div>
 
@@ -105,7 +152,7 @@ button {
 
 <!-- ด่าน 2 -->
 <div id="stage2" class="hidden">
-    <h2 id="msg2">ใกล้แล้ววว 😏</h2>
+    <h2 id="msg2" class="msg">ใกล้แล้ววว 😏</h2>
     <div id="boxes2" class="grid5"></div>
 </div>
 
@@ -122,8 +169,6 @@ function startGame() {
     document.getElementById("stage1").classList.remove("hidden");
 
     let c = document.getElementById("boxes1");
-    c.innerHTML = "";
-
     for (let i = 0; i < 25; i++) {
         let b = document.createElement("div");
         b.className = "box";
@@ -160,8 +205,6 @@ function startStage2() {
     document.getElementById("stage2").classList.remove("hidden");
 
     let c = document.getElementById("boxes2");
-    c.innerHTML = "";
-
     for (let i = 0; i < 5; i++) {
         let b = document.createElement("div");
         b.className = "box";
@@ -189,8 +232,10 @@ function stage2Click() {
     }
 }
 
-/* แสดงรูป */
+/* ตอนจบ */
 function showImage() {
+    document.getElementById("overlay").style.display = "block";
+
     let img = document.getElementById("img");
     img.style.transform = "translate(-50%, -50%) scale(1.5)";
 }

@@ -10,39 +10,22 @@ body {
     font-family: "Kanit", sans-serif;
     text-align: center;
     min-height: 100vh;
+    background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
     overflow-x: hidden;
 }
 
-/* 🌸 พื้นหลังจริง */
-.bg {
+/* ลายจุด (ไม่ขยับแล้ว) */
+.bg-pattern {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
-    z-index: -2;
-}
-
-/* ✨ ลายจุดขยับ */
-.bg-pattern {
-    position: fixed;
-    width: 200%;
-    height: 200%;
     background: radial-gradient(circle, #ffffff33 10%, transparent 10%);
     background-size: 50px 50px;
-    animation: moveBg 10s linear infinite;
     z-index: -1;
-    pointer-events: none;
 }
 
-@keyframes moveBg {
-    from { transform: translate(0,0); }
-    to { transform: translate(-50px,-50px); }
-}
-
-/* กล่อง */
+/* กล่อง UI */
 .card {
-    position: relative;
-    z-index: 10;
     background: rgba(255,255,255,0.9);
     padding: 30px;
     border-radius: 25px;
@@ -60,7 +43,6 @@ button {
     cursor: pointer;
     background: #ff6b81;
     color: white;
-    transition: 0.2s;
 }
 
 button:hover {
@@ -92,7 +74,14 @@ button:hover {
 }
 
 .box:hover {
-    transform: scale(1.3) rotate(5deg);
+    transform: scale(1.2);
+}
+
+/* กล่องเปิดแล้ว */
+.opened {
+    cursor: default;
+    opacity: 0.6;
+    transform: scale(0.9);
 }
 
 /* ซ่อน */
@@ -127,8 +116,6 @@ button:hover {
 
 <body>
 
-<!-- 🌸 พื้นหลัง -->
-<div class="bg"></div>
 <div class="bg-pattern"></div>
 
 <div id="overlay"></div>
@@ -141,7 +128,7 @@ button:hover {
 
 <!-- ด่าน 1 -->
 <div id="stage1" class="hidden">
-    <h2 id="msg1">คิดว่าถูกหรอ 😏</h2>
+    <h2 id="msg1">เลือกดี ๆ นะ 😈</h2>
     <div id="boxes1" class="grid25"></div>
 </div>
 
@@ -159,8 +146,6 @@ button:hover {
 </div>
 
 <img id="img" src="Lnore_.jpg">
-
-<!-- 🔊 เสียง -->
 <audio id="sound" src="Lnore_.mp3"></audio>
 
 <script>
@@ -180,7 +165,16 @@ function startGame() {
         let b = document.createElement("div");
         b.className = "box";
         b.innerText = "🎁";
-        b.onclick = stage1Click;
+
+        b.onclick = function() {
+            if (b.classList.contains("opened")) return;
+
+            b.classList.add("opened");
+            b.innerText = "📦";
+
+            stage1Click();
+        };
+
         c.appendChild(b);
     }
 }
@@ -218,7 +212,16 @@ function startStage2() {
         let b = document.createElement("div");
         b.className = "box";
         b.innerText = "🎁";
-        b.onclick = stage2Click;
+
+        b.onclick = function() {
+            if (b.classList.contains("opened")) return;
+
+            b.classList.add("opened");
+            b.innerText = "📦";
+
+            stage2Click();
+        };
+
         c.appendChild(b);
     }
 }

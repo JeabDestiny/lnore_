@@ -9,13 +9,14 @@ body {
     margin: 0;
     font-family: "Kanit", sans-serif;
     text-align: center;
-    height: 100vh;
-    overflow: hidden;
+
+    min-height: 100vh;
+    overflow-x: hidden;
 
     background: linear-gradient(135deg, #ff9aa2, #ffc3a0);
 }
 
-/* เอฟเฟกต์พื้นหลัง */
+/* ลายพื้นหลัง */
 body::before {
     content: "";
     position: fixed;
@@ -24,6 +25,9 @@ body::before {
     background: radial-gradient(circle, #ffffff33 10%, transparent 10%);
     background-size: 50px 50px;
     animation: moveBg 10s linear infinite;
+
+    pointer-events: none;
+    z-index: -1;
 }
 
 @keyframes moveBg {
@@ -31,20 +35,17 @@ body::before {
     to { transform: translate(-50px,-50px); }
 }
 
-/* กล่อง UI */
+/* กล่อง */
 .card {
+    position: relative;
+    z-index: 10;
+
     background: rgba(255,255,255,0.85);
     padding: 30px;
     border-radius: 25px;
     display: inline-block;
     margin-top: 120px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    animation: pop 0.5s ease;
-}
-
-@keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
 }
 
 /* ปุ่ม */
@@ -96,13 +97,7 @@ button:hover {
     display: none;
 }
 
-/* ข้อความ */
-.msg {
-    font-size: 22px;
-    margin-top: 10px;
-}
-
-/* overlay ตอนจบ */
+/* overlay */
 #overlay {
     position: fixed;
     width: 100%;
@@ -139,7 +134,7 @@ button:hover {
 
 <!-- ด่าน 1 -->
 <div id="stage1" class="hidden">
-    <h2 id="msg1" class="msg">เลือกดี ๆ นะ 😈</h2>
+    <h2 id="msg1">เลือกดี ๆ นะ 😈</h2>
     <div id="boxes1" class="grid25"></div>
 </div>
 
@@ -152,11 +147,14 @@ button:hover {
 
 <!-- ด่าน 2 -->
 <div id="stage2" class="hidden">
-    <h2 id="msg2" class="msg">ใกล้แล้ววว 😏</h2>
+    <h2 id="msg2">ใกล้แล้ววว 😏</h2>
     <div id="boxes2" class="grid5"></div>
 </div>
 
 <img id="img" src="Lnore_.jpg">
+
+<!-- 🔊 ใช้ไฟล์เสียงของน้อง -->
+<audio id="sound" src="Lnore_.mp3"></audio>
 
 <script>
 
@@ -169,6 +167,8 @@ function startGame() {
     document.getElementById("stage1").classList.remove("hidden");
 
     let c = document.getElementById("boxes1");
+    c.innerHTML = "";
+
     for (let i = 0; i < 25; i++) {
         let b = document.createElement("div");
         b.className = "box";
@@ -205,6 +205,8 @@ function startStage2() {
     document.getElementById("stage2").classList.remove("hidden");
 
     let c = document.getElementById("boxes2");
+    c.innerHTML = "";
+
     for (let i = 0; i < 5; i++) {
         let b = document.createElement("div");
         b.className = "box";
@@ -232,12 +234,17 @@ function stage2Click() {
     }
 }
 
-/* ตอนจบ */
+/* ตอนจบ + เสียง */
 function showImage() {
     document.getElementById("overlay").style.display = "block";
 
     let img = document.getElementById("img");
     img.style.transform = "translate(-50%, -50%) scale(1.5)";
+
+    // 🔊 เล่นเสียง (หน่วงนิดให้สะดุ้ง)
+    setTimeout(() => {
+        document.getElementById("sound").play();
+    }, 200);
 }
 
 </script>

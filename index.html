@@ -10,32 +10,33 @@ body {
     font-family: sans-serif;
     text-align: center;
     background: linear-gradient(135deg, #ffc0cb, #ff9aa2);
-    height: 100vh;
-    overflow: hidden;
 }
 
-/* กลางจอ */
+/* center */
 .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 80px;
 }
 
-/* ปุ่ม */
-button {
-    padding: 15px 25px;
-    font-size: 18px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
+/* grid */
+.grid25 {
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    gap: 15px;
+    justify-content: center;
+}
+
+.grid5 {
+    display: grid;
+    grid-template-columns: repeat(5, 70px);
+    gap: 15px;
+    justify-content: center;
 }
 
 /* กล่อง */
 .box {
-    font-size: 60px;
+    font-size: 40px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 /* ซ่อน */
@@ -64,83 +65,92 @@ button {
     <button onclick="startGame()">เริ่มตามหา 🔍</button>
 </div>
 
-<!-- ด่านกล่อง -->
-<div id="game" class="center hidden">
-    <h2 id="msg">เลือกกล่องสิ 😈</h2>
-    <div id="boxes"></div>
+<!-- ด่าน 1 -->
+<div id="stage1" class="center hidden">
+    <h2 id="msg1">เลือกให้ถูกนะ 😈</h2>
+    <div id="boxes1" class="grid25"></div>
 </div>
 
-<!-- ด่านหลอก -->
-<div id="troll" class="center hidden">
-    <h2>ง่ายไปมั้งงง 😏 ลองใหม่อีกที!</h2>
-    <button id="runBtn">กดนี่สิ 😈</button>
+<!-- ด่าน 2 -->
+<div id="stage2" class="center hidden">
+    <h2 id="msg2">ใกล้แล้ววว 😏</h2>
+    <div id="boxes2" class="grid5"></div>
 </div>
 
 <img id="img" src="Lnore_.jpg">
 
 <script>
 
-let correct = Math.floor(Math.random() * 6);
-let clickedCount = 0;
+let count1 = 0;
+let count2 = 0;
 
-/* เริ่มเกม */
+/* เริ่ม */
 function startGame() {
     document.getElementById("start").classList.add("hidden");
-    document.getElementById("game").classList.remove("hidden");
+    document.getElementById("stage1").classList.remove("hidden");
 
-    let container = document.getElementById("boxes");
-    container.innerHTML = "";
-
-    for (let i = 0; i < 6; i++) {
-        let b = document.createElement("span");
+    let c = document.getElementById("boxes1");
+    for (let i = 0; i < 25; i++) {
+        let b = document.createElement("div");
         b.className = "box";
-        b.innerText = "🎁 ";
-        b.onclick = () => clickBox(i);
-        container.appendChild(b);
+        b.innerText = "🎁";
+        b.onclick = stage1Click;
+        c.appendChild(b);
     }
 }
 
-/* กดกล่อง */
-function clickBox(i) {
-    clickedCount++;
+/* ด่าน 1 */
+function stage1Click() {
+    count1++;
 
-    if (i === correct) {
+    let texts = [
+        "ยังไม่ใช่นะ 🤣",
+        "มั่วอีกแล้ววว 😝",
+        "เกือบแล้ว (โกหก)",
+        "คิดว่าถูกหรอ 😏",
+        "อีกนิดเดียว (อีกไกล)"
+    ];
 
-        // ถ้ากดถูกตั้งแต่ครั้งแรก
-        if (clickedCount === 1) {
-            document.getElementById("game").classList.add("hidden");
-            document.getElementById("troll").classList.remove("hidden");
-        } else {
-            showImage();
-        }
+    document.getElementById("msg1").innerText =
+    texts[Math.floor(Math.random()*texts.length)];
 
-    } else {
-        let texts = [
-            "อุ๊ย ผิดอีกแล้ว 🤣",
-            "ไม่ใช่จ้าาา 😝",
-            "เกือบแล้ววว (ไม่ใกล้เลย)",
-            "คิดว่าจะง่ายหรอ 😏",
-            "พยายามอีกนิดนะ 💀"
-        ];
-        document.getElementById("msg").innerText =
-        texts[Math.floor(Math.random()*texts.length)];
+    if (count1 >= 5) {
+        document.getElementById("stage1").classList.add("hidden");
+        startStage2();
     }
 }
 
-/* ด่านหลอก: ปุ่มวิ่ง */
-let runBtn = document.getElementById("runBtn");
-runBtn.addEventListener("mouseover", () => {
-    let x = Math.random() * window.innerWidth;
-    let y = Math.random() * window.innerHeight;
-    runBtn.style.position = "absolute";
-    runBtn.style.left = x + "px";
-    runBtn.style.top = y + "px";
-});
+/* ด่าน 2 */
+function startStage2() {
+    document.getElementById("stage2").classList.remove("hidden");
 
-/* ถ้ากดได้ */
-runBtn.onclick = () => {
-    showImage();
-};
+    let c = document.getElementById("boxes2");
+    for (let i = 0; i < 5; i++) {
+        let b = document.createElement("div");
+        b.className = "box";
+        b.innerText = "🎁";
+        b.onclick = stage2Click;
+        c.appendChild(b);
+    }
+}
+
+function stage2Click() {
+    count2++;
+
+    let texts = [
+        "ใกล้แล้ววว 😳",
+        "อีกนิดเดียวจริง ๆ!",
+        "คราวนี้เกือบละ!",
+        "จะได้แล้วววว"
+    ];
+
+    document.getElementById("msg2").innerText =
+    texts[Math.floor(Math.random()*texts.length)];
+
+    if (count2 >= 3) {
+        showImage();
+    }
+}
 
 /* แสดงรูป */
 function showImage() {
